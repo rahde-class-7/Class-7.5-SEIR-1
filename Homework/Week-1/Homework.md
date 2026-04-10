@@ -2,12 +2,12 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-# ## VM Instance Deployment Project Documentation
+# VM Instance Deployment Project Documentation
 **File Name:** `README.md` (To be placed in each sub-directory)
 
 ---
 
-## ### 1. Context & Business Logic
+## 1. Context & Business Logic
 *This section answers: "Why does this exist in a real company?"*
 
 * **Project Title:** [Deploy a VM instance with supera.sh script]
@@ -17,7 +17,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## ### 2. Technical Architecture
+## 2. Technical Architecture
 *The "blueprint" of the solution.*
 
 * **Architecture Diagram:** `![Alt Text](link_to_image)`
@@ -26,7 +26,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## ### 4. Deployment Instructions
+## 4. Deployment Instructions
 *Can another engineer (or your future self) recreate this in 5 minutes?*
 
 * **Prerequisites:** [e.g., Enable Compute Engine API, Install gcloud SDK].
@@ -37,7 +37,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## ### 5. Verification & Quality Assurance (The "Proof")
+## 5. Verification & Quality Assurance (The "Proof")
 *Don't just say it works. Show it.*
 
 * **Test Case 1:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
@@ -48,7 +48,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## ### 6. Post-Mortem & Engineering Growth
+## 6. Post-Mortem & Engineering Growth
 *This shows you have a "Senior Engineer" mindset.*
 
 * **What went wrong?** [Be honest. Troubleshooting is a skill].
