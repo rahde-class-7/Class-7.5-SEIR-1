@@ -2,7 +2,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-# ## [TEMPLATE] SEIR Project Documentation Framework
+# ## [TEMPLATE] VM Instance Deployment Project Documentation
 **File Name:** `README.md` (To be placed in each sub-directory)
 
 ---
