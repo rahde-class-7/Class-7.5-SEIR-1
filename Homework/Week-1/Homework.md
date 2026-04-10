@@ -21,18 +21,8 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 *The "blueprint" of the solution.*
 
 * **Architecture Diagram:** `![Alt Text](link_to_image)`
-* **Resource Inventory:** A table listing the GCP resources used (VMs, VPCs, IAM Roles, Buckets).
+* **Resource Inventory:** (VMs).
 * **Decision Log:** Why did you choose Service Accounts over User Accounts? Why this specific CIDR?
-
----
-
-## ### 3. Security & Identity Controls (The "IR" in SEIR)
-*This is the core of your specialization. Do not skip.*
-
-* **Identity Principle:** [e.g., Used Least Privilege by creating custom IAM roles].
-* **Network Perimeter:** [e.g., Isolated DB via Private Google Access].
-* **Data Protection:** [e.g., Encrypted at rest using CMEK or protected by VPC-SC].
-* **Auditability:** [e.g., Enabled Cloud Audit Logs for all administrative writes].
 
 ---
 
@@ -64,8 +54,4 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 * **Certification Alignment:** [Which exam objective did this satisfy? PCA, PCSE, etc.]
 
 ---
-
-# ## 💡 SEIR Writing Standards (Best Practices)
-
-| **Do** | **Don't** |
 
