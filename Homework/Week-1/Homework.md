@@ -10,9 +10,9 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 ## ### 1. Context & Business Logic
 *This section answers: "Why does this exist in a real company?"*
 
-* **Project Title:** [Clear, descriptive name]
+* **Project Title:** [Deploy a VM instance with supera.sh script]
 * **Problem Statement:** [What technical gap or security risk are you solving?]
-* **SEIR Domain:** [Networking / Identity / Data Protection / Automation]
+* **SEIR Domain:** [Networking]
 * **Assumed Role:** [e.g., Cloud Security Architect / DevOps Engineer]
 
 ---
