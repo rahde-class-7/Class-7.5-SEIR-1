@@ -41,6 +41,8 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 *Don't just say it works. Show it.*
 
 * **Test Case 1:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
+* ![Screenshot_20260410_152636_Brave](https://github.com/user-attachments/assets/1ec9fd27-05d0-4488-a7de-7fe81b214d12)
+
 * **Test Case 2:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
 * **Logs/Evidence:** Markdown blockquote of a successful command output or a screenshot.
 
