@@ -312,10 +312,10 @@ echo "  curl -s localhost/metadata | jq ."
    
    Also type http:// before pasting in ip address
 
-* **Test Case 2:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
+* **Test Case 3:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
   ![Screenshot_20260410_152636_Brave](https://github.com/user-attachments/assets/1ec9fd27-05d0-4488-a7de-7fe81b214d12)
 
-* **Test Case 3:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
+* **Test Case 4:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
 * **Logs/Evidence:** Markdown blockquote of a successful command output or a screenshot.
 
 
