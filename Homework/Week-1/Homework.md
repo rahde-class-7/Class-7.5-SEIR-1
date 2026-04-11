@@ -7,7 +7,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## 1. Project Overview
+## 1. Project Overview : VM Instance Deployment
 *This section answers: "Why does this exist in a real company?"*
 
 * **Project Title:** [Deploy a VM instance with supera.sh script]
