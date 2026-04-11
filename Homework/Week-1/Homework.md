@@ -71,10 +71,10 @@ Navigate to Compute Engine > VM instances and click Create instance
 
 1. Enter a Name for the instance and called it my-custom-1
 2. Enter a Region for the instance, and pick a zone.
-3. Navigate to Networking tab > Firewall
+3. Navigate to Networking tab > Firewall <br>
    &nbsp; A. Check Allow HTTP Traffic 
    &nbsp; B. Check Allow HTTPS Traffic 
-4. Navigate to Advanced tab > Automation
+4. Navigate to Advanced tab > Automation <br>
    &nbsp; A. Pasted in a script in automation script
 
 ```
