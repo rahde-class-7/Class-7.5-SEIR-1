@@ -62,9 +62,9 @@ Navigate to VPC network > Firewall and click Create Firewall Rule
 5. For Target select `specified target tags`
 6. For Target tags enter custom-demo-network
 7. For Source IP ranges enter 0.0.0.0/0
-8. For ports and protocols
-   &nbsp; A.  Checked TCP, and for Ports entered 22,3369
-   &nbsp; B.  Checked Other, and typed ICMP
+8. For ports and protocols <br>
+   &nbsp; A.  Checked TCP, and for Ports entered 22,3369 <br>
+   &nbsp; B.  Checked Other, and typed ICMP <br>
 9. Clicked on create
 
 Navigate to Compute Engine > VM instances and click Create instance
@@ -72,8 +72,8 @@ Navigate to Compute Engine > VM instances and click Create instance
 1. Enter a Name for the instance and called it my-custom-1
 2. Enter a Region for the instance, and pick a zone.
 3. Navigate to Networking tab > Firewall <br>
-   &nbsp; A. Check Allow HTTP Traffic 
-   &nbsp; B. Check Allow HTTPS Traffic 
+   &nbsp; A. Check Allow HTTP Traffic <br>
+   &nbsp; B. Check Allow HTTPS Traffic <br>
 4. Navigate to Advanced tab > Automation <br>
    &nbsp; A. Pasted in a script in automation script
 
