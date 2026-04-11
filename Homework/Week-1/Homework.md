@@ -28,7 +28,7 @@ Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe 
 
 ---
 
-## 4. Deployment Instructions
+## 3. Deployment Instructions
 *Can another engineer (or your future self) recreate this in 5 minutes?*
 
 * **Prerequisites:** [e.g., Enable Compute Engine API, Install gcloud SDK].
@@ -39,7 +39,7 @@ Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe 
 
 ---
 
-## 5. Verification & Quality Assurance (The "Proof")
+## 4. Verification & Quality Assurance (The "Proof")
 *Don't just say it works. Show it.*
 
 * **Test Case 1:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
@@ -50,7 +50,7 @@ Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe 
 
 ---
 
-## 6. Engineering Reflections 
+## 5. Engineering Reflections 
 *This shows you have a "Senior Engineer" mindset.*
 
 * **What went wrong?** [Be honest. Troubleshooting is a skill].
