@@ -29,7 +29,7 @@ Navigate to VPC network > VPC networks and click Create VPC Network
 
 1. Enter a Name for the VPC. In this case its called custom-vpc-demo
 2. Choose Automatic for subnet creation mode
-3. Navigate to Subnets and create 3 subnets
+3. Navigate to Subnets and create 3 subnets &nbsp;
    Creation of the first subnet &nbsp;
    A. Enter a Name for the subnet. In this case its called us-central1 &nbsp;
    B. Enter a Region for the subnet. 
