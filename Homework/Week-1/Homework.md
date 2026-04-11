@@ -36,47 +36,58 @@ Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe 
     * **Option A (CLI):** Provide `gcloud` code blocks.
     * **Option B (IaC):** Provide links to `.tf` (Terraform) files in the directory.
     * **Option C (Console):** Provide `console` instructions
-      Created VPC
 
-Went to VPC
-Clicked on create VPC network
+Navigate to VPC network > VPC networks and click Create VPC Network
 
-Created an second vpc
-Called it custom-vpc-demo
+1. Enter a Name for the VPC. In this case its called custom-vpc-demo
+2. Choose Automatic for subnet creation mode
+3. Navigate to Subnets and create 3 subnets
+   Creation of the first subnet
+   A. Enter a Name for the subnet. In this case its called us-central1
+   B. Enter a Region for the subnet. 
+   C. Enter a IP range for the subnet. In this case it is 168.192.0.0/24
+   D. click on done
+   
+   Creation of the second subnet
+   A. Click on add subnet
+   B. Enter a Name for the subnet. In this case its called us-central1-a
+   C. Enter a Region for the subnet. 
+   D. Enter a IP range is 192.168.0.0/24
+   E. click on done
+   
+   Creation of the third subnet
+   A. Click on add subnet
+   B. Enter a Name for the subnet. In this case its called us-east-1
+   C. Enter a Region for the subnet. 
+   D. Enter a IP range is 168.190.0.0/24
+   E. click on done
+   
+4. Finishing VPC Configuration
+   A. Clicked on create
 
-Added first subnet
-Called it us-central1
-Ip range is 168.192.0.0/24
+Navigate to VPC network > Firewall and click Create Firewall Rule
 
-Added second subnet
-Called it us-central1-a
-Ip range is 192.168.0.0/24
+1. Created firewall rule for ssh, icmp, tcp
+2. Clicked on create firewall rule
+3. Enter a Name for the Firewall rule and Called it custom-vpc-demo-ssh
+4. For network selected custom vpc network
+5. For Target select `specified target tags`
+6. For Target tags enter custom-demo-network
+7. For Source IP ranges enter 0.0.0.0/0
+8. For ports and protocols
+   A.  Checked TCP, and for Ports entered 22,3369
+   B.  Checked Other, and typed ICMP
+9. Clicked on create
 
-Added third subnet
-Called it us-east-1
-Ip range is 168.190.0.0/24
-Created the VPC
-1.Clicked on create
+Navigate to Compute Engine > VM instances and click Create instance
 
-Created firewall rule for ssh, icmp, tcp
-Clicked on create firewall rule
-Called it custom-vpc-demo-ssh
-Created for custom vpc network
-Target tags is custom-demo-network
-Source ip ranges is 0.0.0.0
-For protocols selected tcp 22,3369, other protocols icmp
-Clicked on create
-
-Create 1 compute engine machines
-
-Opened up a new tab
-Created first compute engine instance
-
-Name it my-custom-1
-Went to Networking tab
-Choose custom-vpc-demo
-Choose subnet us-central-1
-Pasted in a script in automation script
+1. Enter a Name for the instance and called it my-custom-1
+2. Enter a Region for the instance, and pick a zone.
+3. Navigate to Networking tab > Firewall
+   A. Check Allow HTTP Traffic
+   B. Check Allow HTTPS Traffic
+4. Navigate to Advanced tab > Automation
+   A. Pasted in a script in automation script
 
 ```
 #!/bin/bash
@@ -276,8 +287,8 @@ echo "  curl -s localhost/healthz"
 echo "  curl -s localhost/metadata | jq ."
 
 ```
-Enabled http and https
-Clicked on create
+
+5. Clicked on create
 
 ssh into default machine and it works
 Tried to ping my-auto-1 and it dosent work
