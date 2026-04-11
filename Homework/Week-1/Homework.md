@@ -325,6 +325,20 @@ Ssh into auto-machine-1
 * **Test Case 2:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
 * **Logs/Evidence:** Markdown blockquote of a successful command output or a screenshot.
 
+2. Typed in the following command ps -ef | grep 'tomcat'. The script from above was made with gemini so use the following command if using apache --> ps -ef | grep 'apache2'. What this does is Check if Apache processes are running 
+3. Pasted the ip of the instance I to the browser
+
+If you get this error ERR_CONNECTION_REFUSED
+Do this
+``sudo systemctl status apache2``
+If result is this Apache failed to install or crashed
+
+Then do this
+``sudo apt-get update && sudo apt-get install -y apache2
+sudo systemctl start apache2``
+
+Also type http:// before pasting in ip address
+
 ---
 
 ## 5. Engineering Reflections 
