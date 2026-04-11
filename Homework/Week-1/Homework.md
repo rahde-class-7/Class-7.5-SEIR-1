@@ -15,6 +15,8 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 * **SEIR Domain:** [Networking]
 * **Assumed Role:** [e.g., Cloud Security Architect / DevOps Engineer]
 
+Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe the goal, e.g., "Designing a multi-region network with isolated subnets for a 3-tier application."]
+
 ---
 
 ## 2. Technical Architecture
