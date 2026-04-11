@@ -35,6 +35,7 @@ Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe 
 * **Execution:**
     * **Option A (CLI):** Provide `gcloud` code blocks.
     * **Option B (IaC):** Provide links to `.tf` (Terraform) files in the directory.
+    * **Option C (Console):** Provide `console` instructions 
 * **Configuration Quirks:** [Any "gotchas," like waiting 5 minutes for a Global Load Balancer to propagate].
 
 ---
