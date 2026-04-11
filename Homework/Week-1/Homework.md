@@ -1,19 +1,9 @@
-Deploy a VM instance with supera.sh script and check the success of your deployment with the “gate” script given
-
----
-
 # VM Instance Deployment Project Documentation
-**File Name:** `README.md` (To be placed in each sub-directory)
 
 ---
 
 ## 1. Project Overview : VM Instance Deployment
-*This section answers: "Why does this exist in a real company?"*
-
-* **Project Title:** [Deploy a VM instance with supera.sh script]
-* **Problem Statement:** [What technical gap or security risk are you solving?]
-* **SEIR Domain:** [Networking]
-* **Assumed Role:** [e.g., Cloud Security Architect / DevOps Engineer]
+Deploy a VM instance with supera.sh script and check the success of your deployment with the “gate” script given
 
 Course Reference: GCP MasterClass - Section 10 Lab Objective: [Briefly describe the goal, e.g., "Designing a multi-region network with isolated subnets for a 3-tier application."]
 
