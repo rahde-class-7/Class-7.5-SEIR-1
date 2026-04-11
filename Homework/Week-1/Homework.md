@@ -31,10 +31,10 @@ Navigate to VPC network > VPC networks and click Create VPC Network
 2. Choose Automatic for subnet creation mode
 3. Navigate to Subnets and create 3 subnets <br>
    Creation of the first subnet <br>
-   A. Enter a Name for the subnet. In this case its called us-central1 <br>
-   B. Enter a Region for the subnet. <br>
-   C. Enter a IP range for the subnet. In this case it is 168.192.0.0/24 <br>
-   D. click on done <br>
+   &nbsp; A. Enter a Name for the subnet. In this case its called us-central1 <br>
+   &nbsp; B. Enter a Region for the subnet. <br>
+   &nbsp; C. Enter a IP range for the subnet. In this case it is 168.192.0.0/24 <br>
+   &nbsp; D. click on done <br>
    
    Creation of the second subnet
    A. Click on add subnet
