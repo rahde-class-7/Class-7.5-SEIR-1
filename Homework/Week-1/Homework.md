@@ -7,7 +7,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## 1. Context & Business Logic
+## 1. Project Overview
 *This section answers: "Why does this exist in a real company?"*
 
 * **Project Title:** [Deploy a VM instance with supera.sh script]
@@ -48,7 +48,7 @@ Deploy a VM instance with supera.sh script and check the success of your deploym
 
 ---
 
-## 6. Post-Mortem & Engineering Growth
+## 6. Engineering Reflections 
 *This shows you have a "Senior Engineer" mindset.*
 
 * **What went wrong?** [Be honest. Troubleshooting is a skill].
