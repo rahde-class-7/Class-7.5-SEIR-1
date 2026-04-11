@@ -290,39 +290,6 @@ echo "  curl -s localhost/metadata | jq ."
 
 5. Clicked on create
 
-ssh into default machine and it works
-Tried to ping my-auto-1 and it dosent work
-Tried to ping the external ip of my-auto-1 and it works
-Tried to ping the internal ip of my-auto-1 and it dosent work
-Ssh into my-auto-1
-
-Ssh into my-auto-1 and it works
-Tried to ping external ip of my custom-1, and it dosent work
-Ssh into my-custom-2
-
-Ssh into my-auto-1 and it dosent work
-Note when ping or ssh dosent work check firewall rules
-
-Checking firewall rules
-
-Opened up firewall rule for ssh, icmp, tcp
-Copied the network tag from the firewall rule and added it to custom-1 compute engines
-
-Ssh into custom-1
-
-It works
-Ssh into auto-machine-1
-
-Tried to ping external ip of my custom-1, and it works
-Tried to ping external ip of my custom-2, and it does not work
-Edited firewall rule
-
-Remove tag and saved firewall rule
-Ssh into auto-machine-1
-2. Tried to ping external ip of my custom-2, and it does work
-
-
-
 * **Configuration Quirks:** [Any "gotchas," like waiting 5 minutes for a Global Load Balancer to propagate].
 
 ---
@@ -330,25 +297,27 @@ Ssh into auto-machine-1
 ## 4. Verification & Quality Assurance (The "Proof")
 *Don't just say it works. Show it.*
 
-* **Test Case 1:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
+* **Test Case 1:** ssh into default machine and Typed in the following command ps -ef | grep 'apache2'. What this does is Check if Apache processes are running 
+
+* **Test Case 2:** Pasted the IP of the instance to the browser
+
+   If you get this error ERR_CONNECTION_REFUSED
+   Do this
+   ``sudo systemctl status apache2``
+   If result is this Apache failed to install or crashed
+   
+   Then do this
+   ``sudo apt-get update && sudo apt-get install -y apache2
+   sudo systemctl start apache2``
+   
+   Also type http:// before pasting in ip address
+
+* **Test Case 2:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
   ![Screenshot_20260410_152636_Brave](https://github.com/user-attachments/assets/1ec9fd27-05d0-4488-a7de-7fe81b214d12)
 
-* **Test Case 2:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
+* **Test Case 3:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
 * **Logs/Evidence:** Markdown blockquote of a successful command output or a screenshot.
 
-2. Typed in the following command ps -ef | grep 'tomcat'. The script from above was made with gemini so use the following command if using apache --> ps -ef | grep 'apache2'. What this does is Check if Apache processes are running 
-3. Pasted the ip of the instance I to the browser
-
-If you get this error ERR_CONNECTION_REFUSED
-Do this
-``sudo systemctl status apache2``
-If result is this Apache failed to install or crashed
-
-Then do this
-``sudo apt-get update && sudo apt-get install -y apache2
-sudo systemctl start apache2``
-
-Also type http:// before pasting in ip address
 
 ---
 
