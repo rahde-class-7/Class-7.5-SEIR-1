@@ -38,6 +38,12 @@ gcloud compute instances add-tags [INSTANCE_NAME] \
     --zone=[ZONE]
 ``
 
+10. Used the following command to vertify the configuration of the vm we created
+
+``
+gcloud compute instances describe [INSTANCE_NAME] --zone=[ZONE] --format=json
+``
+
 Show your work:
 1) Browser proof
         Open: http://<EXTERNAL_IP>/
