@@ -36,14 +36,14 @@ Navigate to VPC network > VPC networks and click Create VPC Network
       &nbsp; C. Enter a IP range for the subnet. In this case it is 168.192.0.0/24 <br>
       &nbsp; D. click on done <br>
    
-   Creation of the second subnet
+   Creation of the second subnet <br>
       &nbsp; A. Click on add subnet <br>
       &nbsp; B. Enter a Name for the subnet. In this case its called us-central1-a <br>
       &nbsp; C. Enter a Region for the subnet. <br>
       &nbsp; D. Enter a IP range is 192.168.0.0/24 <br>
       &nbsp; E. click on done <br>
    
-   Creation of the third subnet
+   Creation of the third subnet <br>
       &nbsp; A. Click on add subnet <br>
       &nbsp; B. Enter a Name for the subnet. In this case its called us-east-1 <br>
       &nbsp; C. Enter a Region for the subnet. <br>
