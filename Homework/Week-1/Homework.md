@@ -285,22 +285,26 @@ echo "  curl -s localhost/metadata | jq ."
 ## 4. Verification & Quality Assurance (The "Proof")
 *Don't just say it works. Show it.*
 
-* **Test Case 1:** ssh into default machine and Typed in the following command ps -ef | grep 'apache2'. What this does is Check if Apache processes are running 
+* **Test Case 1:** Verified that Apache processes is running
+  1. Navigate to Compute Engine > VM instances > VM instance and click on ssh
+  2. Once ssh into default machine and enter the following command ` ps -ef | grep 'apache2' `.
+  3. What this does is Check if Apache processes are running 
 
 * **Test Case 2:** Pasted the IP of the instance to the browser
-
-   If you get this error ERR_CONNECTION_REFUSED
-   Do this
+   1. Navigate to Compute Engine > VM instances > VM instance and copy on External IP
+   2. Pasted the IP address in the URL, also type http:// before pasting in ip address
+   
+**Troubleshooting Test Case 2**
+  If you get this error ERR_CONNECTION_REFUSED
+   Enter the following command
    ``sudo systemctl status apache2``
    If result is this Apache failed to install or crashed
    
-   Then do this
+   Enter the following command
    ``sudo apt-get update && sudo apt-get install -y apache2
    sudo systemctl start apache2``
-   
-   Also type http:// before pasting in ip address
 
-* **Test Case 3:** [Describe test, e.g., "Internal connectivity check"] -> **Result:** [Pass/Fail].
+**Result:** [Pass/Fail].
   ![Screenshot_20260410_152636_Brave](https://github.com/user-attachments/assets/1ec9fd27-05d0-4488-a7de-7fe81b214d12)
 
 * **Test Case 4:** [Describe security test, e.g., "Attempted unauthorized access"] -> **Result:** [Blocked].
