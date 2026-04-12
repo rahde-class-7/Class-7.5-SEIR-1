@@ -294,15 +294,15 @@ echo "  curl -s localhost/metadata | jq ."
    1. Navigate to Compute Engine > VM instances > VM instance and copy on External IP
    2. Pasted the IP address in the URL, also type http:// before pasting in ip address
    
-**Troubleshooting Test Case 2**
-  If you get this error ERR_CONNECTION_REFUSED
-   Enter the following command
-   ``sudo systemctl status apache2``
+**Troubleshooting Test Case 2** <br>
+  If you get this error ERR_CONNECTION_REFUSED <br>
+   Enter the following command <br>
+   ``sudo systemctl status apache2`` <br>
    If result is this Apache failed to install or crashed
    
-   Enter the following command
-   ``sudo apt-get update && sudo apt-get install -y apache2
-   sudo systemctl start apache2``
+   Enter the following command <br>
+   ``sudo apt-get update && sudo apt-get install -y apache2`` <br>
+   ``sudo systemctl start apache2`` 
 
 **Result:** [Pass/Fail].
   ![Screenshot_20260410_152636_Brave](https://github.com/user-attachments/assets/1ec9fd27-05d0-4488-a7de-7fe81b214d12)
