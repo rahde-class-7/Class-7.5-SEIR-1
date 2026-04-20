@@ -185,4 +185,6 @@ The reason we want it to be in the cloud is so that it is less likley to have th
 │ 
 │ Reason: Initial configuration of the requested backend "gcs"` if we already initialize terraform
 
+* needed to include an gitignore file for security reasons
+
 ---
