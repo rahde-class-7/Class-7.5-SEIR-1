@@ -8,8 +8,8 @@ crash.log
 crash.*.log
 
 # Exclude all .terraform directories
-**.terraform/*
-
+**/.terraform*
+.terraform/
 # .tfvars files often contain sensitive data
 *.tfvars
 *.tfvars.json
