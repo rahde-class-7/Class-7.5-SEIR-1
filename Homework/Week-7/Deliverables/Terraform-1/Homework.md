@@ -13,6 +13,7 @@ Deployment of an proof of concept static website that is entirely automated with
 ---
 
 ### 3. Deployment Instructions
+There are two versions for deployment instructions. First deployment instruction CLI, second deployment instuction is Terraform
 
 #### CLI INSTRUCTIONS
 
@@ -276,5 +277,65 @@ executed the following commands to verify we made the correct configuration and 
 ---
 
 ### 5. Engineering Reflections
+
+This is a solid proof of concept for automating static asset delivery. Transitioning from the manual Google Cloud Console steps to Terraform highlights the core SRE principle of **Toil Reduction**.
+
+Here are engineering reflection questions tailored to your specific lab steps, the transition to Terraform, and production-grade considerations.
+
+---
+
+## 1. Manual Configuration & IAM
+**Focus:** Understanding the "Access Denied" hurdles and identity.
+
+* **Step Reflection:** Why did unchecking `Enforce public access prevention` not immediately make your files visible in the browser? What is the functional difference between **Bucket-level settings** and **Object-level permissions**?
+* **Design Decision:** You used the role `storage.objectViewer`. If this website also allowed users to upload photos of the Salsa event, which role would you have needed to add, and why would you apply it to a separate bucket?
+* **Production Context:** In a corporate environment, using `allUsers` is often a security violation. How could you serve this website privately to only company employees using **Cloud IAP (Identity-Aware Proxy)**?
+
+
+
+---
+
+## 2. Infrastructure as Code (Terraform)
+**Focus:** State management and automation logic.
+
+* **Step Reflection:** In your `0-authentication.tf`, you hardcoded the Project ID and Region. What are the benefits of moving these to a `variables.tf` file for a production pipeline?
+* **Design Decision:** Your `1-backend.tf` uses a GCS bucket to store the state file. What happens if two engineers try to run `terraform apply` at the same time? How does the GCS backend handle **State Locking**?
+* **Production Context:** You uploaded objects one-by-one in Terraform. If your Salsa website had 500 images, would you continue using `google_storage_bucket_object` resource blocks, or would you use a different method (like `gsutil rsync` or a CI/CD pipeline)?
+
+---
+
+## 3. Storage Architecture
+**Focus:** Optimization and performance.
+
+* **Step Reflection:** You chose **Multi-Region** for the location. How does this choice affect the **Availability Service Level Agreement (SLA)** compared to a Single-Region bucket?
+* **Design Decision:** Why is it important to define a `not_found_page` (404.html) in the `website` block? How does this improve the user experience (UX) for a potential guest looking for event details?
+* **Production Context:** To reduce latency for users outside of New York, how would adding **Cloud CDN** (Content Delivery Network) on top of this bucket change the way your images are served?
+
+
+
+---
+
+## 4. Disaster Recovery & Reliability (The "VidiStream" Mindset)
+**Focus:** Continuity and data integrity.
+
+* **Step Reflection:** If you accidentally run `terraform destroy`, your website and images vanish. What Terraform attribute (e.g., `prevent_destroy`) or GCS feature (e.g., **Versioning**) would you enable to prevent data loss?
+* **Design Decision:** Your backend configuration included a `google_compute_disk`. Since this is a static website lab, why might keeping persistent data on a disk be less efficient than keeping it in a GCS bucket?
+* **Production Context:** If the `us-east4` region had a total outage, how quickly could you point your Terraform configuration to a different region to keep the Salsa event landing page live?
+
+---
+
+## 5. Cost & Efficiency
+**Focus:** Resource optimization.
+
+* **Step Reflection:** You used the **Standard** storage class. If you were storing historical archives of Salsa events from five years ago that no one looks at, which storage class would save the most money?
+* **Design Decision:** How does the "Pay-for-what-you-use" model of GCS compare to running a small Nginx web server on a Compute Engine VM for this specific project?
+* **Production Context:** How would you set up a **Budget Alert** in GCP to notify you if the egress traffic (users downloading your website images) exceeds $10.00?
+
+---
+
+### Suggested Next Action
+To complete your **Verification & Quality Assurance** section, I recommend running `terraform output` to capture the `bucket_url` and then running a `curl -I <URL>` command to show the **200 OK** HTTP status code as evidence.
+
+Would you like me to help you write the Terraform code for the **Cloud Load Balancer** mentioned in your Phase 4?
 
 ---
