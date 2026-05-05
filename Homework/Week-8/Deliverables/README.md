@@ -77,6 +77,8 @@ echo "\<h1\>Hello from Google Cloud\!\</h1\>\<p\>Served from host: $(hostname)\<
    * **Timeout** 3 seconds  
    * Leave all other defaults and click **Save and continue**.  
 6. Click **Create**. 
+7. End result
+![Managed Instance Group](/Users/rahdejonesrahde/class-7.5/Class-7.5-SEIR-1/Homework/Week-8/Deliverables/Screenshots/managed-instance-group.png)
 
 ## Add a Firewall Rule
 To allow the load balancer and test traffic to reach your backend instances, ensure port 80 is open.
@@ -98,7 +100,7 @@ To test autoscaling, we need to create high CPU usage on the active VM.
 
 1. Go to **Compute Engine** > **VM instances**.  
 2. Find the instance belonging to the MIG and click the **SSH**.  
-3. Run the following command to pin the CPU at high utilization for 10 minutes:  
+3. Run the following increase CPU utilization  
 ```
    sudo apt-get install stress
 ``` 
@@ -106,7 +108,7 @@ To test autoscaling, we need to create high CPU usage on the active VM.
    sudo stress --cpu 2 --timeout 500
 ``` 
 4. Within 2-4 minutes, the Autoscaler will detect that the average CPU utilization of the group has exceeded the 60% threshold.  
-5. Go to **Compute Engine** \> **Instance groups** \> `web-server-mig`.  
+5. Go to **Compute Engine** > **Instance groups** > `web-server-mig`.  
 6. Refresh the page to view the **Instance count** chart or list. You will see the group scale out, adding a new VM instance to handle the load.  
 7. End the SSH session (press `Ctrl+C` to stop `stress-ng`).  
 8. After several minutes of normal load, the autoscaler will scale the instances back down to the minimum limit of `1`.
@@ -132,13 +134,15 @@ To test autoscaling, we need to create high CPU usage on the active VM.
 
 ### Q & A
 Each bullet point can be between 1-5 sentences. You choose the amount of detail as long as I see that you understand it. <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. What is the difference between high availability and fault tolerance? Which is best to strive for? <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Explain the difference between autoscaling and elasticity. What is vertical and horizontal autoscaling? Is one better? Are they feasible on prem? <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Explain what the difference between managed and unmanaged instance groups is.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f. Explain the different use cases for health checks used by applications (in instance groups) and health checks used by load balancers. Can they be the same? Are they different API calls? Should they be the same? <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g. Explain in a few sentences what the 3 tier architecture is and how it relates to what you are learning. <br>
+### What is the difference between high availability and fault tolerance? Which is best to strive for? 
+### Explain the difference between autoscaling and elasticity. What is vertical and horizontal autoscaling? Is one better? Are they feasible on prem? 
+### Explain what the difference between managed and unmanaged instance groups is
+### Explain the different use cases for health checks used by applications (in instance groups) and health checks used by load balancers. Can they be the same? Are they different API calls? Should they be the same? 
+### Explain in a few sentences what the 3 tier architecture is and how it relates to what you are learning. 
 
 ---
+
+### Desicision Log
 
 ### Citations
 https://partner.skills.google/paths/18/course_templates/1169/labs/608711
