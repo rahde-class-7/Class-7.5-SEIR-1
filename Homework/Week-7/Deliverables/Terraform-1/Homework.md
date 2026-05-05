@@ -1,19 +1,19 @@
 ## Static Website Automated with GCS Project Documentation Framework
 
 ### 1. Project Overview
-Deployment of an proof of concept static website that is entirely automated with GCS with some sample static assets Outcomes of the lab are The URL of the website, an output in the terraform of the fully formed (clickable) bucket URL 
+Deploy a proof of concept static website hosted on GCS with static assets. After finishing the lab users will know how to deploy an static website on GCS, upload html and css files to GCS, and upload an image to GCS. Deliverables of the lab are the URL of the website, an output in the Terraform of the fully formed (clickable) bucket URL 
 
 ---
 
 ### 2. Technical Architecture
 
-* **Resource Inventory:** Google Cloud Storage Bucket
+* **Resource Inventory:** Google Cloud Storage 
 * **Decision Log:** 
 
 ---
 
 ### 3. Deployment Instructions
-There are two versions for deployment instructions. First deployment instruction CLI, second deployment instuction is Terraform
+There are two versions for deployment instructions. First, deployment instruction CLI. Second, deployment instruction is Terraform
 
 #### CLI INSTRUCTIONS
 
@@ -21,21 +21,21 @@ There are two versions for deployment instructions. First deployment instruction
 Use Google Gemini to create an static website. <br>
 The static website is an landing page for an salsa event located in elsie rooftop in midtown manhattan. The event occurs every friday starting at 6pm. The cover charge is 25$. The website is a single page static website that has an call to action to book your tickets
 
-Note : build this website in increments so you can catch errors early on
+Note : Create the configuration in increments to recognize errors at the start of the configuration rather than when the configuration is finished
 
 #### Phase 2: Create the Bucket, and Test Functionality
 
 ##### CREATING BUCKET
-1. Navigate to Cloud Storage > Buckets > clicked create
-2. Enter an name for the Google Storage bucket `static-website-01`
-3. Location type selected Multi-Region
-4. Storage class is standard
+1. Navigate to Cloud Storage > select Buckets > clicked create
+2. In the Bucket Name field enter an name for the Google Storage bucket 
+3. In location type field select Multi-Region
+4. In Storage class field select standard
 5. For prevent public access unchecked `Enforce public access prevention on this bucket` 
 6. Clicked create
 
 ##### TESTING BUCKET FUNCTIONALITY
-1. Uploaded image to bucket
-2. Copied and pasted public URL of image uploaded to test if connectivity to bucket is successful
+1. Upload image to bucket
+2. Copy the Public URL of image uploaded and paste it into an browser to verify connectivity to bucket is successful
 
 ###### Result
 THIS ERROR <br>
@@ -45,43 +45,45 @@ The following error was shown when attempting to access an image uploaded to sai
 Solution <br>
 Add an Role with the proper permissions to the bucket so the bucket can be accessed bia the public URL
 
-What i learned <br>
-allowing an bucket to accessed by users on the internet is not enough to grant access. the bucket needs the proper permissions to allow the users from the internet to interact with the bucket
+What I Have Learned <br>
+Allowing an bucket to accessed by users on the internet is not enough to grant access. The bucket needs the proper permissions to allow the users from the internet to interact with the bucket
 
 ##### ADDING PERMISSIONS TO ALLOW INTERNET ACCESS
-1. Navigated to permissions > view by roles > click grant access
+1. Navigated to permissions > select view by roles > click grant access
 7. Add principal
-8. New principal field enter allUsers
-9. Select role > storage object viewer
+8. In New principal field enter allUsers
+9. Select role > select storage object viewer
 10. Click save
 11. Click allow public access
 
-what i learned <br>
-adding an new principal of all users makes the bucket accessible to anyone on the internet <br>
-role of storage object viewer allows users to view objects within an bucket
-click save <br>
-you assign an role to to an bucket by going to permissions, assigning a role and a principal to it<br>
+What I Have Learned <br>
+- Adding an new principal of all users makes the bucket accessible to anyone on the internet <br>
+- Role of storage object viewer allows users to view objects within an bucket
+- You assign an role to to an bucket by going to permissions, assigning a role and a principal to it<br>
 
 ###### Result
-You can view the Object within the bucket <br>
+Users can view the Object within the bucket <br>
 The following error was shown when attempting to access an image uploaded to said bucket
 ![ERROR](../Images/Bucket-Error-Solution.png)
 
 #### Phase 3: Add Website Files, and Test Functionality
-1. Navigate to Cloud Storage > Buckets > locate bucket we created > click on 3 dots > edit website configuration
+1. Navigate to Cloud Storage > Buckets > locate bucket created > click on 3 dots > edit website configuration
 2. Enter an name for index page suffix
 3. Enter an name for error page suffix
 4. add an index.html file to the bucket
 2. Copied and pasted public URL of html file uploaded to test if connectivity to bucket is successful
 
-#### Phase 4: added load balancers
+---
 
 #### TERRAFORM INSTRUCTIONS
 #### PHASE 1 : Setting up folders and infrastructure <br>
-1. Create the following files, and set-up the following directory structure
-- Authentication allows terraform to interact with Google Cloud Storage
-- Backend allows terraform state file to be stored in Google Cloud
-- Storage is the configuration where our static website is being deployed
+1. Create the following files 0-authentication.tf, 1-backend.tf, 2-storage.tf, 3-output.tf . 
+- 0-authentication.tf allows terraform to interact with Google Cloud Storage. 
+- 1-backend.tf allows terraform state file to be stored in Google Cloud. 
+- 2-storage.tf is the configuration where our static website is being deployed
+
+As a result, the following directory structure is shown below
+
 ```
 TERRAFORM2/
 ├── .terraform/
@@ -111,7 +113,7 @@ provider "google" {
 ```
 
 #### PHASE 3 : Setting up 1-backend.tf file
-Configuring Terraform state so it gets uploaded into the Cloud
+Configuring Terraform state remote backend. In simple terms terraform state is uploaded into Google Cloud
 ```
 terraform {
   backend "gcs" {
@@ -133,8 +135,6 @@ Setting up an static website
 
 ### Phase 5: Terraform output
 create an Terraform output to output the bucket URL
-
-#### TERRAFORM INSTRUCTIONS
 
 Create an terraform folder with 3 files `0-authentication`, `1-storage`, `2-output` <br>
 Your directory structure should look like this <br>
@@ -260,8 +260,8 @@ resource "google_storage_bucket_iam_member" "public_viewer" {
 executed the following commands to verify we made the correct configuration and checked for errors
 ### Execute Terraform
 #### Execute Terraform
-##1. Terraform plan
-##2. Terraform apply
+##1. Terraform plan <br>
+##2. Terraform apply <br>
 
 #### Result
 ## AN GOOGLE CLOUD STORAGE BUCKET THAT USERS CAN ACCESS OBJECTS DIRECTLY VIA PUBLIC URL
@@ -277,12 +277,6 @@ executed the following commands to verify we made the correct configuration and 
 ---
 
 ### 5. Engineering Reflections
-
-This is a solid proof of concept for automating static asset delivery. Transitioning from the manual Google Cloud Console steps to Terraform highlights the core SRE principle of **Toil Reduction**.
-
-Here are engineering reflection questions tailored to your specific lab steps, the transition to Terraform, and production-grade considerations.
-
----
 
 ## 1. Manual Configuration & IAM
 **Focus:** Understanding the "Access Denied" hurdles and identity.
