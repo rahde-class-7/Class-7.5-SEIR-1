@@ -25,7 +25,9 @@ Managed Instance Groups illustrate operational excellence principals such as hig
 
 ## Prerequisites
 
-To complete this lab, you need An web browser and An google cloud account
+To complete this lab
+- you need An web browser 
+- An google cloud account
 
 ## Create the Instance Template
 An Instance Template is an pre-made, re-useable, configuration created to provision an Compute engine instance. To restate, an instance template is made once; are reuseable which removing the need manually configure the instance. As an result, speed of provisioning virtual machines increases. The rapid provision leads an Instance Template to be used with Instance Groups; templates are the underlying component of Instance Groups to allow them to quickly deploy and destroy virtual machines
@@ -55,8 +57,12 @@ sudo apt-get install \-y apache2 stress-ng
 echo "\<h1\>Hello from Google Cloud\!\</h1\>\<p\>Served from host: $(hostname)\</p\>" \> /var/www/html/index.html
 ```
 4. Click **Create**.
+5. End result
+![Instance-Template](./Screenshots/instance-template.png)
 
 ## Create the Managed Instance Group 
+Managed Instance Groups represents an collection of Compute Engine Instances; each instance uses the same instance template for configuration. To clarify, the instance template used to eliminate manual configuration of multiple compute engine instances. In return, provisioning of virtual machines are uniform and rapid. Creating VM's is faster; increases elasticity and high availability. The following are core features, autoscaling, autohealing, and regional deployments. These features are critical to the configuration below
+
 1. Navigate to **Compute Engine** > **Instance groups**.  
 2. Click **Create instance group**.  
 3. Configure the following settings  
@@ -78,12 +84,12 @@ echo "\<h1\>Hello from Google Cloud\!\</h1\>\<p\>Served from host: $(hostname)\<
    * Leave all other defaults and click **Save and continue**.  
 6. Click **Create**. 
 7. End result
-![Managed Instance Group](/Users/rahdejonesrahde/class-7.5/Class-7.5-SEIR-1/Homework/Week-8/Deliverables/Screenshots/managed-instance-group.png)
+![Managed-Instance-Group](./Screenshots/managed-instance-group.png)
 
 ## Add a Firewall Rule
-To allow the load balancer and test traffic to reach your backend instances, ensure port 80 is open.
+To allow the communication with vm and enter commands to test the infrastructure
 
-1. Go to **VPC network** \> **Firewall**.  
+1. Navigate to **VPC network** > **Firewall**.  
 2. Click **Create firewall rule**.  
    * Enter an value for **Name**  
    * **Targets:** `Specified target tags`  
@@ -92,13 +98,13 @@ To allow the load balancer and test traffic to reach your backend instances, ens
    * **Source IP ranges:** `0.0.0.0/0`  
    * **Protocols and ports:** Check **Specified protocols and ports**, select **tcp**, and enter `80`.  
 3. Click **Create**.
+4. End result
+![Managed-Instance-Group](./Screenshots/firewall.png)
 
-## Test the Infrastructure
-### Task B: Stress Test the Autoscaler
+## Test/Validate the Infrastructure
+**Validation A:** To test autoscaling, manipulate the virtual machine to create high CPU usage on the active VM. As an consequence, more virtual machines will be provisioned. after an specific time peroid compute engine instances will. be destroyed due to Cpu utilization being within normal limits
 
-To test autoscaling, we need to create high CPU usage on the active VM.
-
-1. Go to **Compute Engine** > **VM instances**.  
+1. Navigate to **Compute Engine** > **VM instances**.  
 2. Find the instance belonging to the MIG and click the **SSH**.  
 3. Run the following increase CPU utilization  
 ```
@@ -108,27 +114,126 @@ To test autoscaling, we need to create high CPU usage on the active VM.
    sudo stress --cpu 2 --timeout 500
 ``` 
 4. Within 2-4 minutes, the Autoscaler will detect that the average CPU utilization of the group has exceeded the 60% threshold.  
-5. Go to **Compute Engine** > **Instance groups** > `web-server-mig`.  
+5. Navigate to **Compute Engine** > **Instance groups** > `web-server-mig`.  
 6. Refresh the page to view the **Instance count** chart or list. You will see the group scale out, adding a new VM instance to handle the load.  
 7. End the SSH session (press `Ctrl+C` to stop `stress-ng`).  
-8. After several minutes of normal load, the autoscaler will scale the instances back down to the minimum limit of `1`.
+8. After several minutes of normal load, the autoscaler will scale the instances back down to the minimum limit of `3`.
+
+**Validation B:** To verify that the instance group provisioned instances across multiple zones navigate to instance groups and view its properties. Note: technical overview use cloudshell
+![Managed-Instance-Group](./Screenshots/vertification-b-managed-instance-group-pt1.png)
+![Managed-Instance-Group](./Screenshots/vertification-b-managed-instance-group-pt2.png)
 
 ---
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Explain how to enable autoscaling and autohealing <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Explain how to verify that the instance group will manage instances across multiple zones <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f. Explain any other critical config explicitly <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g. Remember this is for other engineers so no need to try to explain everything like I am a nontechnical person. Also keep in mind runbooks are not for learning but for executing something properly.  Keep it pretty high level. Use whatever amount of detail you feel is correct. <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h. Test it by having a group mate use this runbook to accomplish the goal. They should be able to rely on it only to spin up a properly configured instance group. <br>
 
 ---
 
 ## TERRAFORM
+## Overview
+
+
+
+## Navigation
+- Step 1 
+- Step 2  
+- Step 3 
+- Step 4 
+
+## Prerequisites
+
+To complete this lab
+- you need An web browser 
+- An google cloud account
+- Terraform installed
+- Authentication from terraform to google cloud
+
+## Directory Structure
+create your Terraform configuration files and a directory structure that resembles the following:
+```
+Terraform/
+ ├── 0-authentication.tf
+ ├── 1-vpc.tf.tf
+ ├── 2-compute.tf
+ ├── 3-variables.tf
+```
+
+## 0-authentication.tf
+```
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~>7.0.0"
+    }
+  }
+}
+
+provider "google" {
+  project = "class-seven-point"
+  region  = "us-central1"
+}
+```
+
+## 1-vpc.tf
+```
+
+```
+
+## 2-compute.tf
+```
+# CREATE COMPUTE ENGINE
+resource "google_compute_instance" "confidential_instance" {
+  name             = "my-confidential-instance"
+  zone             = "us-central1-a"
+  machine_type     = "n2d-standard-2"
+  min_cpu_platform = "AMD Milan"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+      labels = {
+        my_label = "value"
+      }
+    }
+  }
+
+  network_interface {
+    network = "default"
+
+  }
+}
+```
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Explain the mandatory (required) arguments for a VM in terraform <br>
+
+- boot_disk - (Required) The boot disk for the instance. Structure is documented below.
+
+- machine_type - (Required) The machine type to create.
+
+- Note: If you want to update this value (resize the VM) after initial creation, you must set allow_stopping_for_update to true.
+
+- Custom machine types can be formatted as custom-NUMBER_OF_CPUS-AMOUNT_OF_MEMORY_MB, e.g. custom-6-20480 for 6 vCPU and 20GB of RAM. Because of current API limitations some custom machine types may get converted to different machine types (such as an equivalent standard type) and cause non-empty plans in your configuration. Use lifecycle.ignore_changes on machine_type in these cases.
+
+- There is a limit of 6.5 GB per CPU unless you add extended memory. You must do this explicitly by adding the suffix -ext, e.g. custom-2-15360-ext for 2 vCPU and 15 GB of memory.
+
+- name - (Required) A unique name for the resource, required by GCE. Changing this forces a new resource to be created.
+
+- network_interface - (Required) Networks to attach to the instance. This can be specified multiple times. Structure is documented below.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Explain how to output the internal and external IP addresses of the provisioned VM and how you figured this out <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Choose 2 non-required arguments and give an explanation for both (do not copy and paste the reference material) <br>
+
+- attached_disk - (Optional) Additional disks to attach to the instance. Can be repeated multiple times for multiple disks.
+
+- tags - (Optional) A list of network tags to attach to the instance.
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Explain how you would figure out the correct format for creating a VM with the “centOS stream 10” image (the specific image is up to you). <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Explain the difference between the “name” argument and the computed “id” and “self_link” attributes <br> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Explain the difference between the “name” argument and the computed “id” and “self_link” attributes <br>
+- name - (Required) A unique name for the resource, required by GCE. Changing this forces a new resource to be created.
+- id - an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
+- self_link - The URI of the created resource
+
 
 ---
 
@@ -142,7 +247,9 @@ Each bullet point can be between 1-5 sentences. You choose the amount of detail 
 
 ---
 
-### Desicision Log
+### Decision Log
+1. **Formatting**: Used similar language and formatting to Google Cloud documentatation to maintain an consistant tone. At the same time, documentation is written in a way so non-technical users can understand configurations. Lastly The author wrote the documentation to the tone of an college english papper to achieve an professional tone
+2. **Testing Infrastructure**: Infrastructure test inspiration came directly from pluraslight lab
 
 ### Citations
 https://partner.skills.google/paths/18/course_templates/1169/labs/608711
@@ -151,3 +258,7 @@ https://www.skills.google/focuses/1206?parent=catalog <br>
 https://dev.to/latchudevops/part-37-google-compute-engine-managed-instance-groups-stateful-in-google-cloud-platform-gcp-2ib4 <br>
 https://docs.cloud.google.com/compute/docs/instance-groups/distributing-instances-with-regional-instance-groups <br>
 https://docs.cloud.google.com/compute/docs/instance-groups/distributing-instances-with-regional-instance-groups <br>
+https://www.skills.google/focuses/42740?parent=catalog <br>
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network <br>
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork <br>
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall
