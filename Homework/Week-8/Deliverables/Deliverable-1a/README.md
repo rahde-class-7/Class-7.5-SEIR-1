@@ -1,17 +1,4 @@
 # Creating Managed Instance Groups Documentation
-Plan
-- study GCP study hub  MIG, auto scaling, 
-- use cantril to study 3 tier architectures
-- study terraform from my obsidian notes
-- do an dry run of the plan
-- review previous BAM
-
----
-do the autoscaling lab i create on my own first. then do the following.
-
-Go to BAM 1. Do it in the CLI first, document the steps, then write it in terraform
-
----
 
 # RUNBOOK
 ## Overview
@@ -44,17 +31,52 @@ An Instance Template is an pre-made, re-useable, configuration created to provis
    * **Advanced options** > Expand the **Management** section.   
      * In the **Automation** input, and paste the following bash script into the value box:
 ```
-\#\!/bin/bash
+#!/bin/bash
 
-\# Install Apache and stress tool for testing
+apt update -y
+apt install -y nginx
 
-sudo apt-get update
+cat <<EOF > /var/www/html/index.html
+<html>
+<head>
+<title>SEIR-I Node</title>
+<style>
+body {
+background-color:black;
+color:#00ff00;
+font-family:monospace;
+padding:40px;
+}
+</style>
+</head>
 
-sudo apt-get install \-y apache2 stress-ng
+<body>
 
-\# Write the hostname to the index file
+<pre>
 
-echo "\<h1\>Hello from Google Cloud\!\</h1\>\<p\>Served from host: $(hostname)\</p\>" \> /var/www/html/index.html
+Initializing Cloud Node...
+
+Connecting to GCP Infrastructure...
+Loading System Modules...
+
+███████╗███████╗██╗██████╗
+██╔════╝██╔════╝██║██╔══██╗
+███████╗█████╗  ██║██████╔╝
+╚════██║██╔══╝  ██║██╔══██╗
+███████║███████╗██║██║  ██║
+╚══════╝╚══════╝╚═╝╚═╝  ╚═╝
+
+System Status: ONLINE
+
+You deployed your first cloud server.
+
+</pre>
+
+</body>
+</html>
+EOF
+
+systemctl restart nginx
 ```
 4. Click **Create**.
 5. End result
@@ -101,25 +123,25 @@ To allow the communication with vm and enter commands to test the infrastructure
 4. End result
 ![Managed-Instance-Group](./Screenshots/firewall.png)
 
-## Test/Validate the Infrastructure
-**Validation A:** To test autoscaling, manipulate the virtual machine to create high CPU usage on the active VM. As an consequence, more virtual machines will be provisioned. after an specific time peroid compute engine instances will. be destroyed due to Cpu utilization being within normal limits
+## Test the Infrastructure
+**Test A:** To test autoscaling, manipulate the virtual machine to create high CPU usage on the active VM. As an consequence, more virtual machines will be provisioned. after an specific time peroid compute engine instances will. be destroyed due to Cpu utilization being within normal limits
 
 1. Navigate to **Compute Engine** > **VM instances**.  
-2. Find the instance belonging to the MIG and click the **SSH**.  
-3. Run the following increase CPU utilization  
+2. Find the instance associated with MIG and click the **SSH**.  
+3. Run the following commands to increase CPU utilization  
 ```
    sudo apt-get install stress
 ``` 
 ```
    sudo stress --cpu 2 --timeout 500
 ``` 
-4. Within 2-4 minutes, the Autoscaler will detect that the average CPU utilization of the group has exceeded the 60% threshold.  
+4. Allow 4 minutes to pass; the Managed Instance Group will detect the average CPU utilization exceeded the 60%. As an result, more instances will be provisioned  
 5. Navigate to **Compute Engine** > **Instance groups** > `web-server-mig`.  
-6. Refresh the page to view the **Instance count** chart or list. You will see the group scale out, adding a new VM instance to handle the load.  
-7. End the SSH session (press `Ctrl+C` to stop `stress-ng`).  
-8. After several minutes of normal load, the autoscaler will scale the instances back down to the minimum limit of `3`.
+6. Refresh the page to view the **Instance count** chart or list. You will see an visual representation  
+7. End the SSH session  
+8. After several minutes of normal CPU utilization, the MIG will reduce number of instances back down to the minimum of `3`.
 
-**Validation B:** To verify that the instance group provisioned instances across multiple zones navigate to instance groups and view its properties. Note: technical overview use cloudshell
+**Test B:** To verify that the instance group provisioned instances across multiple zones navigate to instance groups and view its properties. Note: technical overview use cloudshell
 ![Managed-Instance-Group](./Screenshots/vertification-b-managed-instance-group-pt1.png)
 ![Managed-Instance-Group](./Screenshots/vertification-b-managed-instance-group-pt2.png)
 
@@ -131,19 +153,12 @@ To allow the communication with vm and enter commands to test the infrastructure
 
 ## TERRAFORM
 ## Overview
-
-
-
-## Navigation
-- Step 1 
-- Step 2  
-- Step 3 
-- Step 4 
+The following Terraform configuration provisions an Google Cloud Engine instance within Google Cloud. Underlying components of the configuration is authentication, firewall, compute, variables, and output. In this section, multiple Terraform configuration files are provided to configure an Google Cloud Engine instance within Google Cloud.
 
 ## Prerequisites
 
 To complete this lab
-- you need An web browser 
+- An web browser 
 - An google cloud account
 - Terraform installed
 - Authentication from terraform to google cloud
@@ -153,9 +168,10 @@ create your Terraform configuration files and a directory structure that resembl
 ```
 Terraform/
  ├── 0-authentication.tf
- ├── 1-vpc.tf.tf
+ ├── 1-firewall.tf
  ├── 2-compute.tf
  ├── 3-variables.tf
+ ├── 4-outputs.tf
 ```
 
 ## 0-authentication.tf
@@ -170,69 +186,145 @@ terraform {
 }
 
 provider "google" {
-  project = "class-seven-point"
-  region  = "us-central1"
+  project = var.project_id
+  region  = var.region
 }
 ```
 
-## 1-vpc.tf
+## 1-firewall.tf
 ```
+resource "google_compute_firewall" "allow-http" {
+  name    = "allow-http"
+  network = "default"
 
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  source_tags   = ["http-server"]
+
+}
 ```
 
 ## 2-compute.tf
 ```
-# CREATE COMPUTE ENGINE
-resource "google_compute_instance" "confidential_instance" {
-  name             = "my-confidential-instance"
-  zone             = "us-central1-a"
-  machine_type     = "n2d-standard-2"
-  min_cpu_platform = "AMD Milan"
 
+# resource "google_compute_address" "static-ip-address" {
+#   name = "static-ip-address"
+# }
+resource "google_compute_instance" "dev-instance" {
+  name = "dev-instance"
+  
+  # non-required attribute
+  description  = ""
+  zone         = var.zone
+  machine_type = "n2d-standard-2"
+  tags         = ["http-server"]
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2204-lts"
-      labels = {
-        my_label = "value"
-      }
+      image = "projects/centos-cloud/global/images/centos-stream-10-v20260505"
+      size  = 100
     }
+  }
+  # non-required attribute
+  attached_disk {
+    source = google_compute_disk.additional-disk.self_link
   }
 
   network_interface {
     network = "default"
-
   }
+
+  # network_interface {
+  #   network = "default"
+  #   subnetwork = data.google_compute_subnetwork.kubernetes.id
+  #   access_config {
+  #     nat_ip = google_compute_address.static-ip-address.address
+  #   }
+  # }
+
+  metadata_startup_script = file("/Users/rahdejonesrahde/class-7.5/Class-7.5-SEIR-1/Homework/Week-8/Deliverables/Deliverable-1a/Startup-scripts/startup.sh")
+
+}
+
+resource "google_compute_disk" "additional-disk" {
+  name  = "additional-disk"
+  type  = "pd-ssd"
+  zone  = "us-central1-a"
+  image = "debian-11-bullseye-v20220719"
+  labels = {
+    environment = "dev"
+  }
+  physical_block_size_bytes = 4096
 }
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Explain the mandatory (required) arguments for a VM in terraform <br>
+## 3-variables.tf
+```
+variable "project_id" {
+  default     = "class-seven-point"
+  description = "value"
+}
 
-- boot_disk - (Required) The boot disk for the instance. Structure is documented below.
+variable "region" {
+  default     = "us-central1"
+  description = "value"
+}
 
-- machine_type - (Required) The machine type to create.
+variable "zone" {
+  default     = "us-central1-a"
+  description = "value"
+}
+```
 
-- Note: If you want to update this value (resize the VM) after initial creation, you must set allow_stopping_for_update to true.
+## 4-outputs.tf
+```
+output "instance_internal_ip" {
+  value       = google_compute_instance.dev-instance.network_interface.0.network_ip
+  description = "value"
+}
+# output "instance_external_IP" {
+#  value = google_compute_instance.dev-instance.network_interface.0.network_ip
+#  description = "value"
+# }
 
-- Custom machine types can be formatted as custom-NUMBER_OF_CPUS-AMOUNT_OF_MEMORY_MB, e.g. custom-6-20480 for 6 vCPU and 20GB of RAM. Because of current API limitations some custom machine types may get converted to different machine types (such as an equivalent standard type) and cause non-empty plans in your configuration. Use lifecycle.ignore_changes on machine_type in these cases.
+output "instance_name" {
+  value       = google_compute_instance.dev-instance.name
+  description = "value"
+}
+output "instance_id" {
+  value       = google_compute_instance.dev-instance.instance_id
+  description = "value"
+}
 
-- There is a limit of 6.5 GB per CPU unless you add extended memory. You must do this explicitly by adding the suffix -ext, e.g. custom-2-15360-ext for 2 vCPU and 15 GB of memory.
+output "instance_self_link" {
+  value       = google_compute_instance.dev-instance.self_link
+  description = "value"
+}
+```
 
-- name - (Required) A unique name for the resource, required by GCE. Changing this forces a new resource to be created.
+## Mandatory Arguments for a VM
+The following arguments are mandatory to provision an virtual machine **boot_disk**, **machine_type**, **name**, **network interface**
 
-- network_interface - (Required) Networks to attach to the instance. This can be specified multiple times. Structure is documented below.
+- boot_disk is an virtual hard drive attached to an compute engine instance
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Explain how to output the internal and external IP addresses of the provisioned VM and how you figured this out <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Choose 2 non-required arguments and give an explanation for both (do not copy and paste the reference material) <br>
+- machine_type is an pre-set configuration for the compute engine instance
 
-- attached_disk - (Optional) Additional disks to attach to the instance. Can be repeated multiple times for multiple disks.
+- name is is the name for compute engine instance
 
-- tags - (Optional) A list of network tags to attach to the instance.
+- network_interface allows an compute engine instance to connect to the VPC
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Explain how you would figure out the correct format for creating a VM with the “centOS stream 10” image (the specific image is up to you). <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. Explain the difference between the “name” argument and the computed “id” and “self_link” attributes <br>
-- name - (Required) A unique name for the resource, required by GCE. Changing this forces a new resource to be created.
-- id - an identifier for the resource with format projects/{{project}}/zones/{{zone}}/instances/{{name}}
-- self_link - The URI of the created resource
+## How to output the internal and external IP addresses of the provisioned VM  
+1. Create an output block
+2. Enter the value to appear in the terminal in the value attribute of the output block
+
+## 2 non-required arguments used within VM configruation 
+Two optional arguments used within the VM configuration are `attached disk` and `tags`. The argument attached_disk, attaches additional persistent disks to an Google Cloud Compute Engine Instance. The argument tags, attaches an tag to the instance.
+
+## Difference between the “name” argument and the computed “id” and “self_link” attributes 
+The following arguments `name`, `id`, and `self_link` are all ways to identify an resource within GCP. The difference between the 3 arguments are. First, name is an identifier for the resource in the form of an letters. Second, id is an identifier for the resource in the form of an series of numbers. Lastly, self_link is the URL of the resource. 
 
 
 ---
@@ -240,16 +332,27 @@ resource "google_compute_instance" "confidential_instance" {
 ### Q & A
 Each bullet point can be between 1-5 sentences. You choose the amount of detail as long as I see that you understand it. <br>
 ### What is the difference between high availability and fault tolerance? Which is best to strive for? 
-### Explain the difference between autoscaling and elasticity. What is vertical and horizontal autoscaling? Is one better? Are they feasible on prem? 
+High Availability is, when a system can continue function as some components fail. Fault tolerance is, when a system can continue function in an event that causes all components fail. The difference between High Availability and Fault tolerance is the resilience to failure. By design, Fault tolerance is more resilient to failure
+
+
+### The difference between autoscaling and elasticity. ? 
+
+The difference between auto scaling and elasticity is the following
+1. Elasticity is an fundamental cloud concept. on the other hand, auto-scaling an action that occurs within cloud enviornments. MIG's adding and removing instances is an example of auto scaling; its an mechanism
+
+What is vertical and horizontal autoscaling? Is one better? Are they feasible on prem
+1. Vertical autoscaling is, increasing the computing power of an instance. For example, upgrading a single compute engine instance from small to xl
+2. Horizontal autoscaling is, adding multiple copies of the same instance to handle an workload. for example, adding multiple compute engine instances to meet demand
+3. Scaling both vertcal and horizontal is feasible on prem, but, the process is more time and resource intensive compared to scaling within the Cloud Computing enviornment
+
+
 ### Explain what the difference between managed and unmanaged instance groups is
-### Explain the different use cases for health checks used by applications (in instance groups) and health checks used by load balancers. Can they be the same? Are they different API calls? Should they be the same? 
+The difference between an managed instance group and unmanaged instance groups is the configuration of the VM's in both instance groups. An managed instance group, contains VM's with identical configurations. An unmanaged instance group, contains VM's with different configurations.
+
 ### Explain in a few sentences what the 3 tier architecture is and how it relates to what you are learning. 
+An 3 tired Architecture takes an monolithic application and divides it into 3 layers. Presentation, application, and database. This separation makes management of the application easier
 
 ---
-
-### Decision Log
-1. **Formatting**: Used similar language and formatting to Google Cloud documentatation to maintain an consistant tone. At the same time, documentation is written in a way so non-technical users can understand configurations. Lastly The author wrote the documentation to the tone of an college english papper to achieve an professional tone
-2. **Testing Infrastructure**: Infrastructure test inspiration came directly from pluraslight lab
 
 ### Citations
 https://partner.skills.google/paths/18/course_templates/1169/labs/608711
@@ -261,4 +364,10 @@ https://docs.cloud.google.com/compute/docs/instance-groups/distributing-instance
 https://www.skills.google/focuses/42740?parent=catalog <br>
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network <br>
 https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork <br>
-https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall <br>
+https://serverfault.com/questions/1017276/use-metadata-startup-script-in-google-cloud-template-in-terraform <br>
+https://stackoverflow.com/questions/61898892/terraform-gcp-create-instance-with-static-ip?rq=1 <br>
+https://stackoverflow.com/questions/63401480/how-to-create-gcp-instance-with-public-ip-with-terraform <br>
+https://stackoverflow.com/questions/70417826/terraform-and-gcp-create-new-compute-vm-in-existing-shared-vpc-and-subnet <br>
+https://dev.to/onlyoneerin/understanding-high-availability-fault-tolerance-and-disaster-recovery-in-aws-an-overview-2o4p <br>
+https://www.geeksforgeeks.org/system-design/scalability-vs-elasticity/
