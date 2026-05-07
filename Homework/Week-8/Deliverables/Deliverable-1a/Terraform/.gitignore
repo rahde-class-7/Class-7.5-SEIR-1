@@ -62,6 +62,3 @@ wheels/
 .idea/
 .vscode/
 *.swp
-
-# --
-Terraform-Decision-log.md
