@@ -371,3 +371,6 @@ https://stackoverflow.com/questions/63401480/how-to-create-gcp-instance-with-pub
 https://stackoverflow.com/questions/70417826/terraform-and-gcp-create-new-compute-vm-in-existing-shared-vpc-and-subnet <br>
 https://dev.to/onlyoneerin/understanding-high-availability-fault-tolerance-and-disaster-recovery-in-aws-an-overview-2o4p <br>
 https://www.geeksforgeeks.org/system-design/scalability-vs-elasticity/
+
+## ENGINEERING NOTES
+got an overlapping subnets error. The solution is to create an custom VPC
