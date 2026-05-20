@@ -13,6 +13,10 @@ resource "google_compute_instance_template" "server-template" {
 
   network_interface {
     network = "default"
+
+    access_config {
+      // Ephemeral public IP
+    }
   }
 
   // Points to location of bootstrapping script

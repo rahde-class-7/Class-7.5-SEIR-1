@@ -31,7 +31,6 @@ To complete this lab
 
 ## Create Instance Group
 
-
 ### Load balancer configuration
 1. navigate to compute engine > instance groups
 1. click create instance group
