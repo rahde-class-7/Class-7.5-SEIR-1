@@ -115,6 +115,19 @@ FROM table_name
 WHERE row = value;
 ```
 
+---
+---
+
+# Creating Read Replicas
+1. Navigate to Database instance created > open options menu > select `create read replica`
+
+
+# End Result
+1. An read replica was created and it is showned within the GUI below
+
+
+---
+
 
 ### Documentation Used
 
